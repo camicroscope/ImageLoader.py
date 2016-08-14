@@ -63,7 +63,7 @@ class MetadataExtractor:
                 elif prop == 'study_id':
                     payLoad[prop] = fileMetadata['study_id']
                 elif prop == "case_id":
-                    payLoad[prop] = fileMetadata['id']
+                    payLoad["sample-id"] = fileMetadata['id']
                 elif prop in ["mpp-x", "mpp-y", "objective-power"]:
 
                     '''
