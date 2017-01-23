@@ -4,9 +4,9 @@ import openslide
 
 class MetadataExtractor:
     PROPERTIES = [
-        "objective-power",
-        "mpp-x",
-        "mpp-y",
+        "objective",
+        "mpp_x",
+        "mpp_y",
         "vendor",
         "width",
         "height",
@@ -58,22 +58,22 @@ class MetadataExtractor:
         if(imageMetadata):
             for prop in self.PROPERTIES:
                 #print(prop)
-                if prop == "file-location":
+                if prop == "file-location" or prop == "filename":
                     payLoad[prop] = fileMetadata['file-location']
                 elif prop == 'study_id':
                     payLoad[prop] = fileMetadata['study_id']
                 elif prop == "case_id":
                     payLoad["case_id"] = fileMetadata['id']
-                elif prop in ["mpp-x", "mpp-y", "objective-power"]:
+                elif prop in ["mpp_x", "mpp_y", "objective"]:
 
                     '''
                     Tiff specific
                     '''
-                    if prop == "mpp-x":
+                    if prop == "mpp_x":
                         if("tiff.XResolution" in imageMetadata.properties):
                             payLoad[prop] = float(imageMetadata.properties["tiff.XResolution"])
 
-                    if prop == "mpp-y":
+                    if prop == "mpp_y":
                         if("tiff.YResolution" in imageMetadata.properties):
                             payLoad[prop] = float(imageMetadata.properties["tiff.YResolution"])
 
@@ -89,7 +89,7 @@ class MetadataExtractor:
                         payLoad[prop] = float(imageMetadata.properties['openslide.'+str(prop)])
                     else:
 
-                        if(prop == "objective-power"):
+                        if(prop == "objective"):
                             if("aperio.AppMag" in imageMetadata.properties):
                                 payLoad[prop] = float(imageMetadata.properties["aperio.AppMag"])
                             else:
