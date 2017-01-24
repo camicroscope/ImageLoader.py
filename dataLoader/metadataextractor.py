@@ -5,8 +5,8 @@ import openslide
 class MetadataExtractor:
     PROPERTIES = [
         "objective",
-        "mpp_x",
-        "mpp_y",
+        "mpp-x",
+        "mpp-y",
         "vendor",
         "width",
         "height",
@@ -64,16 +64,16 @@ class MetadataExtractor:
                     payLoad[prop] = fileMetadata['study_id']
                 elif prop == "case_id":
                     payLoad["case_id"] = fileMetadata['id']
-                elif prop in ["mpp_x", "mpp_y", "objective"]:
+                elif prop in ["mpp-x", "mpp-y", "objective"]:
 
                     '''
                     Tiff specific
                     '''
-                    if prop == "mpp_x":
+                    if prop == "mpp-x":
                         if("tiff.XResolution" in imageMetadata.properties):
                             payLoad[prop] = float(imageMetadata.properties["tiff.XResolution"])
 
-                    if prop == "mpp_y":
+                    if prop == "mpp-y":
                         if("tiff.YResolution" in imageMetadata.properties):
                             payLoad[prop] = float(imageMetadata.properties["tiff.YResolution"])
 
@@ -117,6 +117,9 @@ class MetadataExtractor:
             if not payLoad[prop]:
                 payLoad = {}
         '''
+	payLoad["mpp_x"] = payLoad["mpp-x"]
+	payLoad["mpp_y"] = payLoad["mpp-y"]
+	payLoad["subject_id"] = payLoad["case_id"]
         return payLoad
 
 
