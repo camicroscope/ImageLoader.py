@@ -117,6 +117,7 @@ class MetadataExtractor:
             if not payLoad[prop]:
                 payLoad = {}
         '''
+
 	payLoad["mpp_x"] = payLoad["mpp-x"]
 	payLoad["mpp_y"] = payLoad["mpp-y"]
 	payLoad["subject_id"] = payLoad["case_id"]
