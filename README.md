@@ -12,6 +12,21 @@ Make sure you have `LD_LIBRARY_PATH` set up
 `python dataLoader.py -i <inputCSVFile> -o <RESTinterface> -a <API key>`
 
 
+#### Input.csv
+This is the format of input.csv
+
+```
+Id, study_id, File
+test1,default,/data/images/CMU-1.svs
+test2,default,/data/images/CMU-2.svs
+
+```
+
+where 
+* `Id` is the `case_id` of the image
+* `study_id` is the `study_id`
+* `File` is the file location on disk. 
+
 ### Issues
 `ImportError: libopenjp2.so.7: cannot open shared object file.`
 
