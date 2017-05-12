@@ -118,8 +118,13 @@ class MetadataExtractor:
                 payLoad = {}
         '''
 
-        payLoad["mpp_x"] = payLoad["mpp-x"]
-        payLoad["mpp_y"] = payLoad["mpp-y"]
+        if("mpp-x" in payLoad):
+            payLoad["mpp_x"] = payLoad["mpp-x"]
+            payLoad["mpp_y"] = payLoad["mpp-y"]
+        else:
+            payLoad["mpp_x"] = None
+            payLoad["mpp_y"] = None
+            print("Warning, could't find mpp_x and mpp_y for case_id: "+payLoad["case_id"])
         payLoad["subject_id"] = payLoad["case_id"]
         payLoad["filename"] = payLoad["file-location"]
         return payLoad
