@@ -89,13 +89,13 @@ def main(argv):
         
             payLoad = extractor.createPayLoad()
             if(payLoad == {}):
-                logging.warning("Failed: Id: "+str(uId)+" file-location: "+ parsedInput[uId] + " couldn't find file or failed to fetch metadata")
+                logging.warning("Failed: Id: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " couldn't find file or failed to fetch metadata")
                 continue
 
             response = postPayLoad(payLoad, url, apiKey)
             print(response.status_code)
             if(response.status_code != 200):
-                print("Failed: "+str(uId)+" file-location: "+ parsedInput[uId] + " with HTTP status code " + str(response.status_code))
+                print("Failed: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " with HTTP status code " + str(response.status_code))
                 logging.warning("Failed: "+str(uId)+ " with HTTP status code " + str(response.status_code))
             else:
                 logging.info("Success: "+str(uId))
