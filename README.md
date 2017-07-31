@@ -1,6 +1,6 @@
 # Data Loader
 
-Python utility to extract metadata from OpenSlide images and post them to a RESTful interface
+Python utility to extract metadata in JSON format from OpenSlide images and post them to a RESTful interface
 
 Installation:
 * Tested on python 3.5.0.
