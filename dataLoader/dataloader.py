@@ -21,12 +21,20 @@ def parseInputFile(inputfile):
     if os.path.exists(inputfile):
         with open(inputfile, newline='') as f:
             try:
-                #process
-                inputReader = csv.reader(f)
-                #for row in inputReader:
-                inputFileDict = {rows[0]:[rows[1],rows[2]] for rows in inputReader}
+                #header = [h.strip() for h in f.next().split(',')]
+                csv.register_dialect('MyDialect', quotechar='"', skipinitialspace=True, quoting=csv.QUOTE_NONE, lineterminator='\n', strict=True)
 
-                return inputFileDict
+                #process
+                inputReader = csv.DictReader(f, dialect='MyDialect')
+                #print(inputReader[0])
+                x = []
+                for r in inputReader:
+                  print(r)
+                  x.append(r)
+                #for row in inputReader:
+                inputFileDict = {rows for rows in inputReader}
+
+                return x
 
             except IOError:
                 print("troubles parsing inputfile:"+ inputfile)
@@ -77,9 +85,30 @@ def main(argv):
 
     logging.info("Log started on: "+str(datetime.datetime.now()))
     parsedInput = parseInputFile(inputfile)
+    print(parsedInput)
+    for inp in parsedInput:
+      extractor = MetadataExtractor(inp)
+      payLoad  = extractor.createPayLoad()
+      if(payLoad == {}):
+        logging.warning("Failed: Id: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " couldn't find file or failed to fetch metadata")
+
+      print(inp)
+      print(payLoad)
+      print("---")
+      payLoad.update(inp)
+      response = postPayLoad(payLoad, url, apiKey)
+      if(response.status_code != 200):
+        print("Failed: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " with HTTP status code " + str(response.status_code))
+        logging.warning("Failed: "+str(uId)+ " with HTTP status code " + str(response.status_code))
+      else:
+        logging.info("Success: "+str(uId))    
+      logging.info("Compeleted on: "+str(datetime.datetime.now()))
+      print(payLoad)
+
+    '''
     for uId in parsedInput:
 
-        if not uId == "Id":
+        if not uId == "case_id":
             fileMetadata = {}
             fileMetadata['id']= uId
             fileMetadata['study_id'] = parsedInput[uId][0]
@@ -92,14 +121,14 @@ def main(argv):
                 logging.warning("Failed: Id: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " couldn't find file or failed to fetch metadata")
                 continue
 
-            response = postPayLoad(payLoad, url, apiKey)
+            vresponse = postPayLoad(payLoad, url, apiKey)
             print(response.status_code)
             if(response.status_code != 200):
                 print("Failed: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " with HTTP status code " + str(response.status_code))
                 logging.warning("Failed: "+str(uId)+ " with HTTP status code " + str(response.status_code))
             else:
                 logging.info("Success: "+str(uId))
-
+      '''
     logging.info("Compeleted on: "+str(datetime.datetime.now()))
 if __name__ == "__main__":
     main(sys.argv[1:])

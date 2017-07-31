@@ -13,7 +13,7 @@ class MetadataExtractor:
         "level_count",
         "timestamp",
         "md5sum",
-        "file-location", #From CSV
+        "filename", #From CSV
         "case_id",
         "study_id"
     ]
@@ -25,7 +25,7 @@ class MetadataExtractor:
             print("Couldn't fetch image metadaa")
     def extractImageMetadata(self):
         fileMetadata = self.fileMetadata
-        fileLocation = fileMetadata['file-location']
+        fileLocation = fileMetadata['filename']
         try:
             openslideF = openslide.OpenSlide(fileLocation)
             payLoad = openslideF
@@ -59,11 +59,10 @@ class MetadataExtractor:
             for prop in self.PROPERTIES:
                 #print(prop)
                 if prop == "file-location" or prop == "filename":
-                    payLoad[prop] = fileMetadata['file-location']
-                elif prop == 'study_id':
-                    payLoad[prop] = fileMetadata['study_id']
+                    payLoad[prop] = fileMetadata['filename']
+
                 elif prop == "case_id":
-                    payLoad["case_id"] = fileMetadata['id']
+                    payLoad["case_id"] = fileMetadata['case_id']
                 elif prop in ["mpp-x", "mpp-y", "objective"]:
 
                     '''
@@ -101,7 +100,7 @@ class MetadataExtractor:
                 elif prop == "vendor":
                     payLoad[prop] = imageMetadata.properties['openslide.'+str(prop)]
                 elif prop == "md5sum":
-                    payLoad[prop] = self.generateMD5Checksum(fileMetadata['file-location'])
+                    payLoad[prop] = self.generateMD5Checksum(fileMetadata['filename'])
                 elif prop == "level_count":
                     payLoad[prop] = int(imageMetadata.level_count)
                 elif prop == "timestamp":
@@ -126,7 +125,7 @@ class MetadataExtractor:
             payLoad["mpp_y"] = None
             print("Warning, could't find mpp_x and mpp_y for case_id: "+payLoad["case_id"])
         payLoad["subject_id"] = payLoad["case_id"]
-        payLoad["filename"] = payLoad["file-location"]
+        #payLoad["filename"] = payLoad["file-location"]
         return payLoad
 
 
