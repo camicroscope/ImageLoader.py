@@ -29,7 +29,7 @@ def parseInputFile(inputfile):
                 #print(inputReader[0])
                 x = []
                 for r in inputReader:
-                  print(r)
+                  #print(r)
                   x.append(r)
                 #for row in inputReader:
                 inputFileDict = {rows for rows in inputReader}
@@ -90,7 +90,7 @@ def main(argv):
       extractor = MetadataExtractor(inp)
       payLoad  = extractor.createPayLoad()
       if(payLoad == {}):
-        logging.warning("Failed: Id: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " couldn't find file or failed to fetch metadata")
+        logging.warning("Failed: Id: "/ " couldn't find file or failed to fetch metadata")
 
       print(inp)
       print(payLoad)
@@ -98,10 +98,10 @@ def main(argv):
       payLoad.update(inp)
       response = postPayLoad(payLoad, url, apiKey)
       if(response.status_code != 200):
-        print("Failed: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " with HTTP status code " + str(response.status_code))
-        logging.warning("Failed: "+str(uId)+ " with HTTP status code " + str(response.status_code))
+        print("Failed: "+ " with HTTP status code " + str(response.status_code))
+        logging.warning("Failed: "+ " with HTTP status code " + str(response.status_code))
       else:
-        logging.info("Success: "+str(uId))    
+        logging.info("Success: ")    
       logging.info("Compeleted on: "+str(datetime.datetime.now()))
       print(payLoad)
 
