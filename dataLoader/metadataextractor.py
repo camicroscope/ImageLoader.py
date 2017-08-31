@@ -14,6 +14,7 @@ class MetadataExtractor:
         "timestamp",
         "md5sum",
         "filename", #From CSV
+        "file-location", # for backward compatibility with other apps
         "case_id",
         "study_id"
     ]
