@@ -32,7 +32,7 @@ def parseInputFile(inputfile):
                 print("troubles parsing inputfile:"+ inputfile)
                 sys.exit(2)
     else:
-        print("ERROR! Couldnt read: "+ inputfile)
+        print("ERROR! Couldn't read: "+ inputfile)
         sys.exit(2)
 
 def parseInputs(argv):
@@ -89,7 +89,7 @@ def main(argv):
         
             payLoad = extractor.createPayLoad()
             if(payLoad == {}):
-                logging.warning("Failed: Id: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " couldn't find file or failed to fetch metadata")
+                logging.warning("Failed: Id: "+str(uId)+" file-location: "+ parsedInput[uId][1] + " couldn't find the file or failed to fetch metadata")
                 continue
 
             response = postPayLoad(payLoad, url, apiKey)
@@ -100,7 +100,7 @@ def main(argv):
             else:
                 logging.info("Success: "+str(uId))
 
-    logging.info("Compeleted on: "+str(datetime.datetime.now()))
+    logging.info("Completed on: "+str(datetime.datetime.now()))
 if __name__ == "__main__":
     main(sys.argv[1:])
 
